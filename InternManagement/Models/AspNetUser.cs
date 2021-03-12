@@ -7,14 +7,7 @@ namespace InternManagement.Models
 {
     public partial class AspNetUser
     {
-        public AspNetUser()
-        {
-            AspNetUserClaims = new HashSet<AspNetUserClaim>();
-            AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            AspNetUserRoles = new HashSet<AspNetUserRole>();
-            AspNetUserTokens = new HashSet<AspNetUserToken>();
-        }
-
+ 
         public string Id { get; set; }
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
@@ -32,9 +25,5 @@ namespace InternManagement.Models
         public int AccessFailedCount { get; set; }
         public string Nombres { get; set; }
 
-        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
-        public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
     }
 }
