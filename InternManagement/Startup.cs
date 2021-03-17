@@ -1,4 +1,6 @@
+using Blazored.Toast;
 using InternManagement.Areas.Identity;
+using InternManagement.BLL;
 using InternManagement.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -52,7 +54,12 @@ namespace InternManagement
                 config.Filters.Add(new AuthorizeFilter(policy));
             
             });
-           
+
+            //Adding Toast Service
+            services.AddBlazoredToast();
+
+            //Adding BLL Injections
+            services.AddTransient<InstitucionesBLL>();
 
         }
 
