@@ -1,7 +1,7 @@
 ﻿<h3>Instituciones</h3>
 
 @page "/Instituciones"
-@page "/Instituciones/{InstitucionId::int}"
+@page "/Instituciones/{InstitucionId:int}"
 
 @inject IToastService toast
 
@@ -21,7 +21,7 @@
                             <label>Persona Id</label>
                             <div class="input-group">
                                 <InputNumber @bind-Value="instituciones.InstitucionId" class="form-control" />
-                                <div class="input-group-append">
+                                <div class="input-group-append ml-2">
                                     <button type="button" style="z-index:0" class="btn btn-secondary input-group-text" @onclick="Buscar">Buscar</button>
                                 </div>
                             </div>
@@ -149,5 +149,4 @@
         this.instituciones = new Institucione();
     }
 
-}
 }
