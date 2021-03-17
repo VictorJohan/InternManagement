@@ -127,7 +127,7 @@ namespace InternManagement.BLL
             try
             {
                 lista = await _contexto.Instituciones.Where(criterio).ToListAsync();
-                //lista.Sort((x, y) => x..CompareTo(y.Descripcion));
+                lista.Sort((x, y) => x.Nombre.CompareTo(y.Nombre));
             }
             catch (Exception)
             {
