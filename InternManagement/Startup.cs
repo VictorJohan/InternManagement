@@ -59,7 +59,12 @@ namespace InternManagement
             services.AddBlazoredToast();
 
             //Adding BLL Injections
+            services.AddTransient<HabilidadesBLL>();
             services.AddTransient<InstitucionesBLL>();
+            services.AddTransient<NacionalidadesBLL>();
+            services.AddTransient<PasanteHabilidadesBLL>();
+            services.AddTransient<PasantesBLL>();
+            services.AddTransient<TareasBLL>();
 
         }
 
