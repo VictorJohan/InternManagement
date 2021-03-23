@@ -47,6 +47,8 @@ namespace InternManagement.BLL
 
             try
             {
+                nacionallidad.FechaCreacion = DateTime.Now;
+
                await _contexto.Nacionalidades.AddAsync(nacionallidad);
                 ok = await _contexto.SaveChangesAsync() > 0;
             }
