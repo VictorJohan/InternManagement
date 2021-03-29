@@ -120,7 +120,7 @@ namespace InternManagement.BLL
             return ok;
         }
 
-        public async Task<List<Institucione>> GetHabilidades(Expression<Func<Institucione, bool>> criterio)
+        public async Task<List<Institucione>> GetInstituciones(Expression<Func<Institucione, bool>> criterio)
         {
             List<Institucione> lista = new List<Institucione>();
 

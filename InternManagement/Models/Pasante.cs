@@ -22,7 +22,7 @@ namespace InternManagement.Models
         public string Email { get; set; }
         public int? InstitucionId { get; set; }
         public int? NacionalidadId { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
         public virtual Institucione Institucion { get; set; }
         public virtual Nacionalidade Nacionalidad { get; set; }

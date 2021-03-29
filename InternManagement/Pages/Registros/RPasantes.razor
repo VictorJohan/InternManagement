@@ -1,0 +1,202 @@
+﻿<h4>Pasantes</h4>
+
+
+@page "/Pasantes"
+@page "/Pasantes/{PasanteId:int}"
+
+@inject IToastService toast
+
+<EditForm Model="pasantes" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Registro de Pasantes</h3>
+        </div>
+
+        <div class="card-body">
+            <form>
+                @*Persona Id*@
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Persona Id</label>
+                            <div class="input-group">
+                                <InputNumber @bind-Value="pasantes.PasanteId" class="form-control" />
+                                <div class="input-group-append ml-2">
+                                    <button type="button" style="z-index:0" class="btn btn-secondary input-group-text" @onclick="Buscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Nombres*@
+                <div class="form-group">
+                    <label>Nombres</label>
+                    <InputText @bind-Value="pasantes.Nombres" class="form-control" />
+                    <ValidationMessage For="@(() => pasantes.Nombres)" />
+                </div>
+
+                @*Apellidos*@
+                <div class="form-group">
+                    <label>Apellidos</label>
+                    <InputText @bind-Value="pasantes.Apellidos" class="form-control" />
+                    <ValidationMessage For="@(() => pasantes.Apellidos)" />
+                </div>
+
+                @*Edad*@
+                <div class="form-group">
+                    <label>Edad</label>
+                    <InputNumber @bind-Value="pasantes.Edad" class="form-control" />
+                    <ValidationMessage For="(() => pasantes.Edad)" />
+                </div>
+
+                @*Cedula*@
+                <div class="form-group">
+                    <label>Cedula</label>
+                    <InputText @bind-Value="pasantes.Cedula" class="form-control" />
+                    <ValidationMessage For="(() => pasantes.Cedula)" />
+                </div>
+
+                @*Telefono*@
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <InputText @bind-Value="pasantes.Telefono" class="form-control" />
+                    <ValidationMessage For="(() => pasantes.Telefono)" />
+                </div>
+
+                @*Email*@
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText @bind-Value="pasantes.Email" class="form-control" />
+                    <ValidationMessage For="(() => pasantes.Email)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Institucion</label>
+                    <InputSelect @bind-Value="pasantes.InstitucionId" class="form-control">
+                        @foreach (var item in lista)
+                        {
+                            <option value="@item.InstitucionId">@item.Nombre</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => pasantes.InstitucionId)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Nacionalidad</label>
+                    <InputSelect @bind-Value="pasantes.NacionalidadId" class="form-control">
+                        @foreach (var item in nacionalidades)
+                        {
+                            <option value="@item.NacionalidadId">@item.Nacionalidad</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="(() => pasantes.NacionalidadId)" />
+                </div>
+
+                @*Fecha Creacion*@
+                <div class="form-group">
+                    <label>Fecha del Registro</label>
+                    <InputDate @bind-Value="pasantes.FechaCreacion" class="form-control" />
+                    <ValidationMessage For="(() => pasantes.FechaCreacion)" />
+                </div>
+
+
+
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+
+    [Inject]
+    private InstitucionesBLL institucionesBLL { get; set; }
+
+    [Inject]
+    private NacionalidadesBLL nacionalidadesBLL { get; set; }
+
+    [Inject]
+    private PasantesBLL pasantesBLL { get; set; }
+
+    [Parameter]
+    public int PasanteId { get; set; }
+
+    private Pasante pasantes = new Pasante();
+    List<Institucione> lista = new List<Institucione>();
+    List<Nacionalidade> nacionalidades = new List<Nacionalidade>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        lista = await institucionesBLL.GetInstituciones(p => true);
+        nacionalidades = await nacionalidadesBLL.GetNacionalidades(p => true);
+        Nuevo();
+    }
+
+    public async void Buscar()
+    {
+        var registro = await pasantesBLL.Buscar(pasantes.PasanteId);
+
+        if (registro != null)
+        {
+            this.pasantes = registro;
+
+        }
+        else
+        {
+            toast.ShowInfo("No se encontró el registro.");
+        }
+    }
+
+    public void Nuevo()
+    {
+        Limpiar();
+    }
+
+    public async void Guardar()
+    {
+
+        if (await pasantesBLL.Guardar(pasantes))
+        {
+
+            toast.ShowSuccess("Guardado");
+            this.pasantes = new Pasante();
+
+        }
+        else
+        {
+            toast.ShowError("No se logró guardar el registro.");
+
+        }
+    }
+
+    public async void Eliminar()
+    {
+        if (await pasantesBLL.Eliminar(pasantes.PasanteId))
+        {
+            toast.ShowSuccess("Eliminado");
+            Limpiar();
+        }
+        else
+        {
+            toast.ShowError("No se logró eliminar el registro.");
+
+        }
+    }
+
+    public void Limpiar()
+    {
+        this.pasantes = new Pasante();
+    }
+
+}

@@ -14,11 +14,11 @@
 
         <div class="card-body">
             <form>
-                @*Persona Id*@
+                @*Institucion Id*@
                 <div class="form-row align-items-center">
                     <div class="col">
                         <div class="form-group">
-                            <label>Persona Id</label>
+                            <label>Institucion Id</label>
                             <div class="input-group">
                                 <InputNumber @bind-Value="instituciones.InstitucionId" class="form-control" />
                                 <div class="input-group-append ml-2">
@@ -38,14 +38,14 @@
 
                 @*Telefono*@
                 <div class="form-group">
-                    <label>Teléfono</label>
+                    <label>Email</label>
                     <InputText @bind-Value="instituciones.Email" class="form-control" />
                     <ValidationMessage For="@(() => instituciones.Telefono)" />
                 </div>
 
                 @*Cedula*@
                 <div class="form-group">
-                    <label>Cédula</label>
+                    <label>Telefono</label>
                     <InputText @bind-Value="instituciones.Telefono" class="form-control" />
                     <ValidationMessage For="(() => instituciones.Telefono)" />
                 </div>
@@ -57,12 +57,14 @@
                     <ValidationMessage For="(() => instituciones.Direccion)" />
                 </div>
 
-                @*Fecha Nacimiento*@
+                @*Fecha Creacion*@
                 <div class="form-group">
-                    <label>Fecha Nacimiento</label>
+                    <label>Fecha del Registro</label>
                     <InputDate @bind-Value="instituciones.FechaCreacion" class="form-control" />
                     <ValidationMessage For="(() => instituciones.FechaCreacion)" />
                 </div>
+
+                
 
             </form>
         </div>
@@ -70,7 +72,7 @@
         <div class="card-footer">
             <div class="form-group text-center" display: inline-block>
                 <button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo</button>
-                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-success" @onclick="Guardar">Guardar</button>
                 <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
         </div>
@@ -91,6 +93,13 @@
     protected override void OnInitialized()
     {
         Nuevo();
+        Limpiar();
+    }
+
+    public void Limpiar()
+    {
+        this.instituciones = new Institucione();
+        
     }
 
     public async void Buscar()
@@ -120,7 +129,8 @@
         {
 
             toast.ShowSuccess("Guardado");
-            Limpiar();
+            Nuevo();
+
 
         }
         else
@@ -128,6 +138,8 @@
             toast.ShowError("No se logró guardar el registro.");
 
         }
+
+        
     }
 
     public async void Eliminar()
@@ -143,10 +155,4 @@
 
         }
     }
-
-    public void Limpiar()
-    {
-        this.instituciones = new Institucione();
-    }
-
 }
