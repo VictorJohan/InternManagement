@@ -17,7 +17,7 @@ namespace InternManagement.Models
         public string Descripcion { get; set; }
         public string Requerimiento { get; set; }
         public string TiempoAproximado { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
         public virtual ICollection<AsignarTarea> AsignarTareas { get; set; }
         public virtual ICollection<RealizarTarea> RealizarTareas { get; set; }
