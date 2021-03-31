@@ -99,7 +99,7 @@
     public void Limpiar()
     {
         this.instituciones = new Institucione();
-        
+
     }
 
     public async void Buscar()
@@ -130,6 +130,7 @@
 
             toast.ShowSuccess("Guardado");
             Limpiar();
+            StateHasChanged();
 
 
         }
@@ -139,7 +140,7 @@
 
         }
 
-        
+
     }
 
     public async void Eliminar()
