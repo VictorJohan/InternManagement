@@ -1,26 +1,26 @@
-﻿<h3>Tareas</h3>
+﻿<h4>Habilidades</h4>
 
-@page "/Tareas"
-@page "/Tareas/{TareaId:int}"
+@page "/Habilidades"
+@page "/Habilidades/{HabilidadId:int}"
 
 @inject IToastService toast
 
-<EditForm Model="tareas" OnValidSubmit="Guardar">
+<EditForm Model="habilidades" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
-            <h3>Registro de Tareas</h3>
+            <h3>Registro de Habilidades</h3>
         </div>
 
         <div class="card-body">
             <form>
-                @*Tarea Id*@
+                @*Habilidad Id*@
                 <div class="form-row align-items-center">
                     <div class="col">
                         <div class="form-group">
-                            <label>Tarea Id</label>
+                            <label>Habilidad Id</label>
                             <div class="input-group">
-                                <InputNumber @bind-Value="tareas.TareaId" class="form-control" />
+                                <InputNumber @bind-Value="habilidades.HabilidadId" class="form-control" />
                                 <div class="input-group-append ml-2">
                                     <button type="button" style="z-index:0" class="btn btn-secondary input-group-text" @onclick="Buscar">Buscar</button>
                                 </div>
@@ -32,30 +32,16 @@
                 @*Descripcion*@
                 <div class="form-group">
                     <label>Descripcion</label>
-                    <InputText @bind-Value="tareas.Descripcion" class="form-control" />
-                    <ValidationMessage For="@(() => tareas.Descripcion)" />
-                </div>
-
-                @*Reqquerimiento*@
-                <div class="form-group">
-                    <label>Requerimiento</label>
-                    <InputText @bind-Value="tareas.Requerimiento" class="form-control" />
-                    <ValidationMessage For="@(() => tareas.Requerimiento)" />
-                </div>
-
-                @*Tiempo Aproximado*@
-                <div class="form-group">
-                    <label>Tiempo Aproximado (Horas)</label>
-                    <InputText @bind-Value="tareas.TiempoAproximado" class="form-control" />
-                    <ValidationMessage For="(() => tareas.TiempoAproximado)" />
+                    <InputText @bind-Value="habilidades.Descripcion" class="form-control" />
+                    <ValidationMessage For="@(() => habilidades.Descripcion)" />
                 </div>
 
 
                 @*Fecha Creacion*@
                 <div class="form-group">
                     <label>Fecha del Registro</label>
-                    <InputDate @bind-Value="tareas.FechaCreacion" class="form-control" />
-                    <ValidationMessage For="(() => tareas.FechaCreacion)" />
+                    <InputDate @bind-Value="habilidades.FechaCreacion" class="form-control" />
+                    <ValidationMessage For="(() => habilidades.FechaCreacion)" />
                 </div>
 
 
@@ -66,7 +52,7 @@
         <div class="card-footer">
             <div class="form-group text-center" display: inline-block>
                 <button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo</button>
-                <button type="button" class="btn btn-success" @onclick="Guardar">Guardar</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
                 <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
             </div>
         </div>
@@ -74,37 +60,29 @@
     </div>
 </EditForm>
 
-
-
 @code {
 
     [Inject]
-    private TareasBLL tareasBLL { get; set; }
+    private HabilidadesBLL habilidadesBLL { get; set; }
 
     [Parameter]
-    public int TareaId { get; set; }
+    public int HabilidadId { get; set; }
 
-    Tarea tareas = new Tarea();
+    Habilidade habilidades = new Habilidade();
 
     protected override void OnInitialized()
     {
         Nuevo();
-        Limpiar();
-    }
-
-    public void Limpiar()
-    {
-        this.tareas = new Tarea();
 
     }
 
     public async void Buscar()
     {
-        var registro = await tareasBLL.Buscar(tareas.TareaId);
+        var registro = await habilidadesBLL.Buscar(habilidades.HabilidadId);
 
         if (registro != null)
         {
-            this.tareas = registro;
+            this.habilidades = registro;
 
         }
         else
@@ -121,27 +99,23 @@
     public async void Guardar()
     {
 
-        if (await tareasBLL.Guardar(tareas))
+        if (await habilidadesBLL.Guardar(habilidades))
         {
 
             toast.ShowSuccess("Guardado");
             Limpiar();
             StateHasChanged();
-
-
         }
         else
         {
             toast.ShowError("No se logró guardar el registro.");
 
         }
-
-
     }
 
     public async void Eliminar()
     {
-        if (await tareasBLL.Eliminar(tareas.TareaId))
+        if (await habilidadesBLL.Eliminar(habilidades.HabilidadId))
         {
             toast.ShowSuccess("Eliminado");
             Limpiar();
@@ -153,4 +127,8 @@
         }
     }
 
+    public void Limpiar()
+    {
+        this.habilidades = new Habilidade();
+    }
 }

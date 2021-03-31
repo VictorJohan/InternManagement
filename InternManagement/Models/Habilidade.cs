@@ -11,6 +11,6 @@ namespace InternManagement.Models
         public int HabilidadId { get; set; }
         [Required(ErrorMessage ="Debe escribir una habilidad.")]
         public string Descripcion { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
     }
 }
