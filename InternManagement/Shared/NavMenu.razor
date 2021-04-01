@@ -60,8 +60,26 @@
                     </li>
                 </ul>
 
-
+                
             }
+        </li>
+
+        <li class="nav-item px-3 dropdown show">
+            <NavLink class="nav-link dropdown-toggle" href="" @onclick="() => expandConsult = !expandConsult">
+                <span class="oi oi-folder" aria-hidden="true"></span> Consultas
+            </NavLink>
+
+            @if (expandConsult)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-1">
+                        <NavLink class="nav-link" href="CInstituciones">
+                            <span class=" oi oi-list" aria-hidden="true"></span> Consultar Instituciones
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+
         </li>
 
 
@@ -74,6 +92,7 @@
 @code {
     private bool collapseNavMenu = true;
     private bool expandSubMenu;
+    private bool expandConsult;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
