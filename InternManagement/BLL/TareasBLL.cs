@@ -146,12 +146,14 @@ namespace InternManagement.BLL
 
             try
             {
-                lista = await _contexto.Tareas.Where(criterio)
-                    .Include(p => p.AsignarTareas)
-                    .Include(p => p.RealizarTareas)
-                    .ToListAsync();
+                lista = await _contexto.Tareas.ToListAsync();
 
-                lista.Sort((x, y) => x.Descripcion.CompareTo(y.Descripcion));
+                //lista = await _contexto.Tareas.Where(criterio)
+                //.Include(p => p.AsignarTareas)
+                //.Include(p => p.RealizarTareas)
+                //.ToListAsync();
+
+                //lista.Sort((x, y) => x.Descripcion.CompareTo(y.Descripcion));
 
             }
             catch (Exception)

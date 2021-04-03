@@ -1,0 +1,156 @@
+﻿
+
+@page "/AsignarTareas"
+@page "/AsignarTareas/{Id:int}"
+
+@inject IToastService toast
+
+<EditForm Model="Tareas" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Asignar Tareas</h3>
+        </div>
+
+        <div class="card-body">
+            <form>
+                @*Id*@
+                <div class="form-row align-items-center">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Id</label>
+                            <div class="input-group">
+                                <InputNumber @bind-Value="Tareas.Id" class="form-control" />
+                                <div class="input-group-append ml-2">
+                                    <button type="button" style="z-index:0" class="btn btn-secondary input-group-text" @onclick="Buscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <div class="input-group">
+                                <InputDate @bind-Value="Tareas.Fecha" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Pasante</label>
+                    <select value="@Tareas.PasanteId" class="form-control">
+                        <option value="0" disabled selected>Seleccione un Pasante</option>
+                        @foreach (var item in lista)
+                        {
+                            <option value="@item.PasanteId">@item.Nombres  </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tareas</label>
+
+                    <div class="table-responsive text-nowrap" style="position: relative; height:auto; overflow: auto; display: block;">
+                        <table class="table table-striped">
+                            <thead style="background-color: gray;">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripcion</th>
+                                    <th>Requerimiento</th>
+                                    <th>Tiempo Aproximado</th>
+                                    <th>Asignar Tarea</th>
+
+                                </tr>
+                            </thead>
+                            <tbody style="background-color: white;">
+                                @foreach (var item in tareaList)
+                                {
+                                <tr>
+                                    <td>@item.TareaId</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.Requerimiento</td>
+                                    <td>@item.TiempoAproximado</td>
+                                    <td><input type="checkbox" style="text-align:center"/></td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+
+    [Inject]
+    private TareasBLL tareasBLL { get; set; }
+
+    [Inject]
+    private PasantesBLL pasantesBLL { get; set; }
+
+
+    [Parameter]
+    public int Id { get; set; }
+
+    List<Pasante> lista = new List<Pasante>();
+    List<Tarea> tareaList = new List<Tarea>();
+
+    AsignarTarea Tareas = new AsignarTarea();
+
+    protected override async void OnInitialized()
+    {
+        Nuevo();
+        lista = await pasantesBLL.GetPasantes(p => true);
+        tareaList = await tareasBLL.GetTareas(p => true);
+        StateHasChanged();
+    }
+
+    public void Buscar()
+    {
+
+    }
+
+    public void Nuevo()
+    {
+        Limpiar();
+    }
+
+    public void Guardar()
+    {
+
+
+    }
+
+    public void Eliminar()
+    {
+
+    }
+
+    private void Asignar(AsignarTarea asignarTarea)
+    {
+        
+    }
+
+    public void Limpiar()
+    {
+        this.Tareas = new AsignarTarea();
+    }
+}

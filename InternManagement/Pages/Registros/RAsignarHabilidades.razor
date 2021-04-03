@@ -1,0 +1,125 @@
+﻿
+@page "/AsignarHabilidades"
+
+<EditForm Model="AsignarHabilidades" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            <h3>Asignar Habilidades</h3>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label>Pasante</label>
+                    <select value="@AsignarHabilidades.PasanteId" class="form-control">
+                        <option value="0" disabled selected>Seleccione un Pasante</option>
+                        @foreach (var item in lista)
+                        {
+                            <option value="@item.PasanteId">@item.Nombres  </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tareas</label>
+
+                    <div class="table-responsive text-nowrap" style="position: relative; height:auto; overflow: auto; display: block;">
+                        <table class="table table-striped">
+                            <thead style="background-color: gray;">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripcion</th>
+                                    <th>Asignar Tarea</th>
+
+                                </tr>
+                            </thead>
+                            <tbody style="background-color: white;">
+                                @foreach (var item in HabilidadesList)
+                                {
+                                    <tr>
+                                        <td>@item.HabilidadId</td>
+                                        <td>@item.Descripcion</td>
+                                        <td><input type="checkbox" style="text-align:center"/></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+
+    [Inject]
+    private HabilidadesBLL habilidadesBLL { get; set; }
+
+    [Inject]
+    private PasantesBLL pasantesBLL { get; set; }
+
+
+    [Parameter]
+    public int Id { get; set; }
+
+    List<Pasante> lista = new List<Pasante>();
+    List<Habilidade> HabilidadesList = new List<Habilidade>();
+
+    PasanteHabilidade AsignarHabilidades = new PasanteHabilidade();
+
+    protected override async void OnInitialized()
+    {
+        Nuevo();
+        lista = await pasantesBLL.GetPasantes(p => true);
+        HabilidadesList = await habilidadesBLL.GetHabilidades(p => true);
+        StateHasChanged();
+    }
+
+    public void Buscar()
+    {
+
+    }
+
+    public void Nuevo()
+    {
+        Limpiar();
+    }
+
+    public void Guardar()
+    {
+
+
+    }
+
+    public void Eliminar()
+    {
+
+    }
+
+    private void Asignar(AsignarTarea asignarTarea)
+    {
+
+    }
+
+    public void Limpiar()
+    {
+        this.AsignarHabilidades = new PasanteHabilidade();
+    }
+}
