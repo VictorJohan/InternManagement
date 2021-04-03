@@ -69,20 +69,20 @@
 
 @code {
 
-    [Inject]
-    private HabilidadesBLL habilidadesBLL { get; set; }
+        [Inject]
+        private HabilidadesBLL habilidadesBLL { get; set; }
 
-    [Inject]
-    private PasantesBLL pasantesBLL { get; set; }
+        [Inject]
+        private PasantesBLL pasantesBLL { get; set; }
 
 
-    [Parameter]
-    public int Id { get; set; }
+        [Parameter]
+        public int Id { get; set; }
 
-    List<Pasante> lista = new List<Pasante>();
-    List<Habilidade> HabilidadesList = new List<Habilidade>();
+        List<Pasante> lista = new List<Pasante>();
+        List<Habilidade> HabilidadesList = new List<Habilidade>();
 
-    PasanteHabilidade AsignarHabilidades = new PasanteHabilidade();
+        PasanteHabilidade AsignarHabilidades = new PasanteHabilidade();
 
     protected override async void OnInitialized()
     {
@@ -113,7 +113,7 @@
 
     }
 
-    private void Asignar(AsignarTarea asignarTarea)
+    private void Asignar(PasanteHabilidade pasanteHabilidades)
     {
 
     }
