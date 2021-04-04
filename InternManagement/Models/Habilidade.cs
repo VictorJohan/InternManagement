@@ -13,4 +13,5 @@ namespace InternManagement.Models
         public string Descripcion { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
     }
+
 }

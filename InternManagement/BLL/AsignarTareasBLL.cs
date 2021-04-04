@@ -10,29 +10,29 @@ using System.Threading.Tasks;
 
 namespace InternManagement.BLL
 {
-    public class HabilidadesBLL
+    public class AsignarTareasBLL
     {
         private ApplicationDbContext _contexto { get; set; }
-        public HabilidadesBLL(ApplicationDbContext contexto)
+        public AsignarTareasBLL(ApplicationDbContext contexto)
         {
             this._contexto = contexto;
         }
 
-        public async Task<bool> Guardar(Habilidade habilidad)
+        public async Task<bool> Guardar(AsignarTarea pasanteTask)
         {
-            if (!await Existe(habilidad.HabilidadId))
-                return await Insertar(habilidad);
+            if (!await Existe(pasanteTask.PasanteId))
+                return await Insertar(pasanteTask);
             else
-                return await Modificar(habilidad);
+                return await Modificar(pasanteTask);
         }
 
-        private async Task<bool> Existe(int id)
+        private async Task<bool> Existe(int? id)
         {
             bool ok = false;
 
             try
             {
-                ok = await _contexto.Habilidades.AnyAsync(h => h.HabilidadId == id);
+                ok = await _contexto.AsignarTareas.AnyAsync(p => p.PasanteId == id);
             }
             catch (Exception)
             {
@@ -43,14 +43,13 @@ namespace InternManagement.BLL
             return ok;
         }
 
-        private async Task<bool> Insertar(Habilidade habilidad)
+        private async Task<bool> Insertar(AsignarTarea pasanteTask)
         {
             bool ok = false;
 
             try
             {
-                habilidad.FechaCreacion = DateTime.Now;
-                _contexto.Habilidades.Add(habilidad);
+                await _contexto.AsignarTareas.AddAsync(pasanteTask);
                 ok = await _contexto.SaveChangesAsync() > 0;
             }
             catch (Exception)
@@ -62,12 +61,12 @@ namespace InternManagement.BLL
             return ok;
         }
 
-        private async Task<bool> Modificar(Habilidade habilidad)
+        private async Task<bool> Modificar(AsignarTarea pasanteTask)
         {
             bool ok = false;
             try
             {
-                _contexto.Entry(habilidad).State = EntityState.Modified;
+                _contexto.Entry(pasanteTask).State = EntityState.Modified;
                 ok = await _contexto.SaveChangesAsync() > 0;
             }
             catch (Exception)
@@ -79,15 +78,15 @@ namespace InternManagement.BLL
             return ok;
         }
 
-        public async Task<Habilidade> Buscar(int id)
+        public async Task<AsignarTarea> Buscar(int id)
         {
-            Habilidade habilidad;
+            AsignarTarea pasanteTask;
 
             try
             {
-                habilidad = await _contexto.Habilidades.Where(h => h.HabilidadId == id).AsNoTracking().SingleOrDefaultAsync();
+                pasanteTask = await _contexto.AsignarTareas.Where(p => p.PasanteId == id).AsNoTracking().SingleOrDefaultAsync();
 
-                var aux = _contexto.Set<Habilidade>().Local.SingleOrDefault(h => h.HabilidadId == id);
+                var aux = _contexto.Set<AsignarTarea>().Local.SingleOrDefault(p => p.PasanteId == id);
                 if (aux != null)
                     _contexto.Entry(aux).State = EntityState.Detached;
             }
@@ -97,7 +96,7 @@ namespace InternManagement.BLL
                 throw;
             }
 
-            return habilidad;
+            return pasanteTask;
         }
 
         public async Task<bool> Eliminar(int id)
@@ -106,9 +105,9 @@ namespace InternManagement.BLL
             try
             {
                 var registro = await Buscar(id);
-                if(registro != null)
+                if (registro != null)
                 {
-                    _contexto.Habilidades.Remove(registro);
+                    _contexto.AsignarTareas.Remove(registro);
                     ok = await _contexto.SaveChangesAsync() > 0;
                 }
             }
@@ -121,19 +120,19 @@ namespace InternManagement.BLL
             return ok;
         }
 
-        public async Task<List<HabilidadesViewModel>> GetHabilidades(Expression<Func<Habilidade, bool>> criterio)
+        public async Task<List<TareasViewModels>> GetAsignarTareas(Expression<Func<TareasViewModels, bool>> criterio)
         {
-            List<HabilidadesViewModel> lista = new List<HabilidadesViewModel>();
-
+            List<TareasViewModels> lista = new List<TareasViewModels>();
             try
             {
-                lista = await _contexto.Habilidades.Where(criterio).Select(h => new HabilidadesViewModel()
+                lista = await _contexto.Tareas.Where(p =>true).Select(t => new TareasViewModels()
                 {
-                    HabilidadId = h.HabilidadId,
-                    Descripcion = h.Descripcion,
-                    
+                    TareaId = t.TareaId,
+                    Descripcion = t.Descripcion,
+                    Requerimiento = t.Requerimiento,
+                    TiempoAproximado = t.TiempoAproximado
+
                 }).ToListAsync();
-                //lista = await _contexto.Habilidades.Where(criterio).ToListAsync();
                 //lista.Sort((x, y) => x.Descripcion.CompareTo(y.Descripcion));
             }
             catch (Exception)

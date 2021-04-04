@@ -19,6 +19,7 @@ namespace InternManagement.Data
         public virtual DbSet<Nacionalidade> Nacionalidades { get; set; }
         public virtual DbSet<Pasante> Pasantes { get; set; }
         public virtual DbSet<PasanteHabilidade> PasanteHabilidades { get; set; }
+        public virtual DbSet<AsignarTarea> AsignarTareas { get; set; }
         public virtual DbSet<RealizarTarea> RealizarTareas { get; set; }
         public virtual DbSet<Tarea> Tareas { get; set; }
 
@@ -149,8 +150,9 @@ namespace InternManagement.Data
 
             modelBuilder.Entity<PasanteHabilidade>(entity =>
             {
-                entity.HasNoKey();
-
+                entity.HasKey(e => e.Id)
+                    .HasName("PK__PasanteH__3214EC077C62E519");
+                
                 entity.HasOne(d => d.Habilidad)
                     .WithMany()
                     .HasForeignKey(d => d.HabilidadId)

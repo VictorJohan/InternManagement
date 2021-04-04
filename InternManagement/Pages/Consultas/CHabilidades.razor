@@ -1,6 +1,7 @@
 ﻿<h3>Habilidades</h3>
 
 @page "/CHabilidades"
+@using InternManagement.ViewModels
 
 @inject IToastService toast
 
@@ -78,7 +79,7 @@
 
 @code {
 
-    public List<Habilidade> HabilidadesList { get; set; }
+    public List<HabilidadesViewModel> HabilidadesList { get; set; }
 
     private DateTime Desde { get; set; } = DateTime.Now;
     private DateTime Hasta { get; set; } = DateTime.Now;
@@ -98,7 +99,7 @@
 
     private void Nuevo()
     {
-        HabilidadesList = new List<Habilidade>();
+        HabilidadesList = new List<HabilidadesViewModel>();
         Filtro = "0";
         Criterio = string.Empty;
     }

@@ -73,7 +73,7 @@
     protected override void OnInitialized()
     {
         Nuevo();
-        
+
     }
 
     public async void Buscar()
@@ -83,6 +83,7 @@
         if (registro != null)
         {
             this.nacionalidades = registro;
+            StateHasChanged();
 
         }
         else
@@ -119,6 +120,7 @@
         {
             toast.ShowSuccess("Eliminado");
             Limpiar();
+            StateHasChanged();
         }
         else
         {

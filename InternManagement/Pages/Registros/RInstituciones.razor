@@ -105,9 +105,11 @@
     {
         var registro = await institucionesBLL.Buscar(instituciones.InstitucionId);
 
+
         if (registro != null)
         {
             this.instituciones = registro;
+            StateHasChanged();
 
         }
         else
@@ -148,6 +150,7 @@
         {
             toast.ShowSuccess("Eliminado");
             Limpiar();
+            StateHasChanged();
         }
         else
         {

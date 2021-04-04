@@ -7,6 +7,7 @@ namespace InternManagement.Models
 {
     public partial class PasanteHabilidade
     {
+        public int Id { get; set; }
         public int? PasanteId { get; set; }
         public int? HabilidadId { get; set; }
 

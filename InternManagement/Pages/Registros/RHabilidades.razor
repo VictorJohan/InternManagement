@@ -83,6 +83,7 @@
         if (registro != null)
         {
             this.habilidades = registro;
+            StateHasChanged();
 
         }
         else
@@ -119,6 +120,7 @@
         {
             toast.ShowSuccess("Eliminado");
             Limpiar();
+            StateHasChanged();
         }
         else
         {

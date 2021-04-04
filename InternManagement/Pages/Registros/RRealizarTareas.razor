@@ -1,27 +1,22 @@
-﻿
-@page "/AsignarHabilidades"
-@page "/AsignarHabilidades/{Id:int}"
+﻿@page "/RealizarTareas"
+@page "/RealizarTareas/{Id:int}"
 
-@using InternManagement.ViewModels
-
-@inject IToastService toast
-
-<EditForm Model="AsignarHabilidades" OnValidSubmit="Guardar">
+<EditForm Model="RealizarTareas" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="card">
         <div class="card-header">
-            <h3>Asignar Habilidades</h3>
+            <h3>Realizar Tareas</h3>
         </div>
 
         <div class="card-body">
             <form>
                 @*Id*@
                 <div class="form-row align-items-center">
-                    <div class="col">
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label>Id</label>
                             <div class="input-group">
-                                <InputNumber @bind-Value="AsignarHabilidades.Id" class="form-control" />
+                                <InputNumber @bind-Value="RealizarTareas.Id" class="form-control" />
                                 <div class="input-group-append ml-2">
                                     <button type="button" style="z-index:0" class="btn btn-secondary input-group-text" @onclick="Buscar">Buscar</button>
                                 </div>
@@ -30,10 +25,9 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
                     <label>Pasante</label>
-                    <select @bind="@AsignarHabilidades.PasanteId" class="form-control">
+                    <select value="@RealizarTareas.PasanteId" @onchange="PasanteChange" class="form-control">
                         <option value="0" disabled selected>Seleccione un Pasante</option>
                         @foreach (var item in lista)
                         {
@@ -43,30 +37,38 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Habilidades</label>
+                    <label>Tareas</label>
+
                     <div class="table-responsive text-nowrap" style="position: relative; height:auto; overflow: auto; display: block;">
                         <table class="table table-striped">
                             <thead style="background-color: gray;">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Tarea ID</th>
                                     <th>Descripcion</th>
-                                    <th>Asignar Habilidad</th>
+                                    <th>Tiempo</th>
+                                    <th>Estado</th>
 
                                 </tr>
                             </thead>
                             <tbody style="background-color: white;">
-                                @foreach (var item in HabilidadesList)
+                                @foreach (var item in Tarealist)
                                 {
                                     <tr>
-                                        <td>@item.HabilidadId</td>
+                                        <td>@item.TareaId</td>
                                         <td>@item.Descripcion</td>
-                                        <td><input id="@item.HabilidadId" @bind="item.Selected" type="checkbox" style="text-align:center"/></td>
+                                        <td>@item.TiempoAproximado</td>
+                                        <td><input id="@item.TareaId" type="checkbox" style="text-align:center" /></td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+
+
+
+
 
             </form>
         </div>
@@ -82,33 +84,33 @@
     </div>
 </EditForm>
 
-@code {
 
-    [Inject]
-    private HabilidadesBLL habilidadesBLL { get; set; }
+@code {
 
     [Inject]
     private PasantesBLL pasantesBLL { get; set; }
 
     [Inject]
-    private PasanteHabilidadesBLL pasanteHabilidadesBLL { get; set; }
+    private TareasBLL tareasBLL { get; set; }
 
+    [Inject]
+    private AsignarTareasBLL asignarTareasBLL { get; set; }
+
+    List<Pasante> lista = new List<Pasante>();
+    List<Tarea> Tarealist = new List<Tarea>();
+    
 
     [Parameter]
     public int Id { get; set; }
 
-    List<Pasante> lista = new List<Pasante>();
-    //List<Habilidade> HabilidadesList = new List<Habilidade>();
-    List<HabilidadesViewModel> HabilidadesList = new List<HabilidadesViewModel>();
-
-    PasanteHabilidade AsignarHabilidades = new PasanteHabilidade();
-    Habilidade habilidades = new Habilidade();
+    RealizarTarea RealizarTareas = new RealizarTarea();
 
     protected override async void OnInitialized()
     {
         Nuevo();
         lista = await pasantesBLL.GetPasantes(p => true);
-        HabilidadesList = await habilidadesBLL.GetHabilidades(p => true);
+        Tarealist = await tareasBLL.GetTareas(p => true);
+
         StateHasChanged();
     }
 
@@ -122,27 +124,9 @@
         Limpiar();
     }
 
-    public async void Guardar()
+    public void Guardar()
     {
 
-        List<PasanteHabilidade> lista = HabilidadesList.Where(h => h.Selected).Select(h => new PasanteHabilidade
-        {
-            HabilidadId = h.HabilidadId,
-            PasanteId = AsignarHabilidades.PasanteId,
-            Id = AsignarHabilidades.Id
-
-        }).ToList();
-
-        foreach (var item in lista)
-        {
-            await pasanteHabilidadesBLL.Guardar(item);
-        }
-
-            toast.ShowSuccess("Guardado");
-            Limpiar();
-            StateHasChanged();
-        
-       
 
     }
 
@@ -156,8 +140,14 @@
 
     }
 
+    private void PasanteChange()
+    {
+
+    }
+
     public void Limpiar()
     {
-        this.AsignarHabilidades = new PasanteHabilidade();
+        this.RealizarTareas = new RealizarTarea();
     }
+
 }

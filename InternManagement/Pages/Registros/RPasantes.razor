@@ -150,6 +150,7 @@
         if (registro != null)
         {
             this.pasantes = registro;
+            StateHasChanged();
 
         }
         else
@@ -187,6 +188,7 @@
         {
             toast.ShowSuccess("Eliminado");
             Limpiar();
+            StateHasChanged();
         }
         else
         {

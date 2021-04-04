@@ -1,7 +1,8 @@
 ﻿
-
 @page "/AsignarTareas"
 @page "/AsignarTareas/{Id:int}"
+
+@using InternManagement.ViewModels
 
 @inject IToastService toast
 
@@ -39,7 +40,7 @@
 
                 <div class="form-group">
                     <label>Pasante</label>
-                    <select value="@Tareas.PasanteId" class="form-control">
+                    <select @bind="@Tareas.PasanteId" class="form-control">
                         <option value="0" disabled selected>Seleccione un Pasante</option>
                         @foreach (var item in lista)
                         {
@@ -50,7 +51,6 @@
 
                 <div class="form-group">
                     <label>Tareas</label>
-
                     <div class="table-responsive text-nowrap" style="position: relative; height:auto; overflow: auto; display: block;">
                         <table class="table table-striped">
                             <thead style="background-color: gray;">
@@ -71,7 +71,7 @@
                                     <td>@item.Descripcion</td>
                                     <td>@item.Requerimiento</td>
                                     <td>@item.TiempoAproximado</td>
-                                    <td><input type="checkbox" style="text-align:center"/></td>
+                                    <td><input id="@item.TareaId" @bind="item.Selected" type="checkbox" style="text-align:center"/></td>
                                 </tr>
                                 }
                             </tbody>
@@ -106,20 +106,25 @@
     [Inject]
     private PasantesBLL pasantesBLL { get; set; }
 
+    [Inject]
+    private AsignarTareasBLL asignarTareasBLL { get; set; }
+
 
     [Parameter]
     public int Id { get; set; }
 
     List<Pasante> lista = new List<Pasante>();
-    List<Tarea> tareaList = new List<Tarea>();
+    //List<Tarea> tareaList = new List<Tarea>();
+    List<TareasViewModels> tareaList = new List<TareasViewModels>();
 
     AsignarTarea Tareas = new AsignarTarea();
+    
 
     protected override async void OnInitialized()
     {
         Nuevo();
         lista = await pasantesBLL.GetPasantes(p => true);
-        tareaList = await tareasBLL.GetTareas(p => true);
+        tareaList = await asignarTareasBLL.GetAsignarTareas(p => true);
         StateHasChanged();
     }
 
@@ -133,9 +138,26 @@
         Limpiar();
     }
 
-    public void Guardar()
+    public async void Guardar()
     {
 
+
+        List<AsignarTarea> lista = tareaList.Where(h => h.Selected).Select(h => new AsignarTarea
+        {
+            TareaId = h.TareaId,
+            PasanteId = Tareas.PasanteId,
+            Id = Tareas.Id
+
+        }).ToList();
+
+        foreach (var item in lista)
+        {
+            await asignarTareasBLL.Guardar(item);
+        }
+
+        toast.ShowSuccess("Guardado");
+        Limpiar();
+        StateHasChanged();
 
     }
 
@@ -146,7 +168,7 @@
 
     private void Asignar(AsignarTarea asignarTarea)
     {
-        
+
     }
 
     public void Limpiar()
