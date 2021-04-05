@@ -119,6 +119,7 @@
         {
             case "0": //Todo
                 InstitucionesList = await institucionesBLL.GetInstituciones(c => true);
+                StateHasChanged();
                 break;
             case "1":
                 if (Criterio.Trim().Length > 0)
@@ -126,6 +127,7 @@
                     try
                     {
                         InstitucionesList = await institucionesBLL.GetInstituciones(c => c.InstitucionId == id);
+                        StateHasChanged();
                     }
                     catch (FormatException)
                     {
@@ -135,6 +137,7 @@
                 else
                 {
                     InstitucionesList = await institucionesBLL.GetInstituciones(c => true);
+                    StateHasChanged();
                 }
                 break;
         }
@@ -145,6 +148,7 @@
                 break;
             case "1": //Fecha
                 InstitucionesList = InstitucionesList.Where(s => s.FechaCreacion >= Desde && s.FechaCreacion <= Hasta).ToList();
+                StateHasChanged();
                 break;
 
         }

@@ -118,7 +118,7 @@
     List<TareasViewModels> tareaList = new List<TareasViewModels>();
 
     AsignarTarea Tareas = new AsignarTarea();
-    
+
 
     protected override async void OnInitialized()
     {
@@ -128,9 +128,20 @@
         StateHasChanged();
     }
 
-    public void Buscar()
+    public async void Buscar()
     {
+        var registro = await asignarTareasBLL.Buscar(Tareas.Id);
 
+        if (registro != null)
+        {
+            this.Tareas = registro;
+            StateHasChanged();
+
+        }
+        else
+        {
+            toast.ShowInfo("No se encontró el registro.");
+        }
     }
 
     public void Nuevo()
@@ -161,9 +172,19 @@
 
     }
 
-    public void Eliminar()
+    public async void Eliminar()
     {
+        if (await asignarTareasBLL.Eliminar(Tareas.Id))
+        {
+            toast.ShowSuccess("Eliminado");
+            Limpiar();
+            StateHasChanged();
+        }
+        else
+        {
+            toast.ShowError("No se logró eliminar el registro.");
 
+        }
     }
 
     private void Asignar(AsignarTarea asignarTarea)

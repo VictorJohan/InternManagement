@@ -115,6 +115,7 @@
         {
             case "0": //Todo
                 TareasList = await tareasBLL.GetTareas(c => true);
+                StateHasChanged();
                 break;
             case "1":
                 if (Criterio.Trim().Length > 0)
@@ -122,6 +123,7 @@
                     try
                     {
                         TareasList = await tareasBLL.GetTareas(c => c.TareaId == id);
+                        StateHasChanged();
                     }
                     catch (FormatException)
                     {
@@ -131,6 +133,7 @@
                 else
                 {
                     TareasList = await tareasBLL.GetTareas(c => true);
+                    StateHasChanged();
                 }
                 break;
         }
@@ -141,6 +144,7 @@
                 break;
             case "1": //Fecha
                 TareasList = TareasList.Where(s => s.FechaCreacion >= Desde && s.FechaCreacion <= Hasta).ToList();
+                StateHasChanged();
                 break;
 
         }

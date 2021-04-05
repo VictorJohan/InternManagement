@@ -85,9 +85,6 @@
 @code {
 
     [Inject]
-    private HabilidadesBLL habilidadesBLL { get; set; }
-
-    [Inject]
     private PasantesBLL pasantesBLL { get; set; }
 
     [Inject]
@@ -108,13 +105,24 @@
     {
         Nuevo();
         lista = await pasantesBLL.GetPasantes(p => true);
-        HabilidadesList = await habilidadesBLL.GetHabilidades(p => true);
+        HabilidadesList = await pasanteHabilidadesBLL.GetHabilidades(p => true);
         StateHasChanged();
     }
 
-    public void Buscar()
+    public async void Buscar()
     {
+        var registro = await pasanteHabilidadesBLL.Buscar(AsignarHabilidades.Id);
 
+        if (registro != null)
+        {
+            this.AsignarHabilidades = registro;
+            StateHasChanged();
+
+        }
+        else
+        {
+            toast.ShowInfo("No se encontró el registro.");
+        }
     }
 
     public void Nuevo()
@@ -138,23 +146,29 @@
             await pasanteHabilidadesBLL.Guardar(item);
         }
 
-            toast.ShowSuccess("Guardado");
+        toast.ShowSuccess("Guardado");
+        Limpiar();
+        StateHasChanged();
+
+
+
+    }
+
+    public async void Eliminar()
+    {
+        if (await pasanteHabilidadesBLL.Eliminar(AsignarHabilidades.Id))
+        {
+            toast.ShowSuccess("Eliminado");
             Limpiar();
             StateHasChanged();
-        
-       
+        }
+        else
+        {
+            toast.ShowError("No se logró eliminar el registro.");
 
+        }
     }
 
-    public void Eliminar()
-    {
-
-    }
-
-    private void Asignar(PasanteHabilidade pasanteHabilidades)
-    {
-
-    }
 
     public void Limpiar()
     {

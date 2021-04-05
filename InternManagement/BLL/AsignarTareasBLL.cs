@@ -143,5 +143,26 @@ namespace InternManagement.BLL
 
             return lista;
         }
+
+        public async Task<List<RealizarTarea>> GetTareasPendientes(int clienteId)
+        {
+            var pendientes = new List<RealizarTarea>();
+
+            var TareasPendientes = await _contexto.AsignarTareas
+                .Where(t => t.PasanteId == clienteId && t.TareaId > 0)
+                .AsNoTracking()
+                .ToListAsync();
+
+            foreach (var item in TareasPendientes)
+            {
+                pendientes.Add(new RealizarTarea
+                {
+                    TareaId = item.TareaId,
+  
+                });
+            }
+
+            return pendientes;
+        }
     }
 }

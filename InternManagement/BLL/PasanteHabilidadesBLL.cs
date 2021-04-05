@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using InternManagement.ViewModels;
 
 namespace InternManagement.BLL
 {
@@ -112,7 +113,7 @@ namespace InternManagement.BLL
             }
             catch (Exception)
             {
-
+  
                 throw;
             }
 
@@ -130,6 +131,30 @@ namespace InternManagement.BLL
                     .Include(s => s.Habilidad)
                     .ToListAsync();
                 lista.Sort((x, y) => x.Pasante.Nombres.CompareTo(y.Pasante.Nombres));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return lista;
+        }
+
+        public async Task<List<HabilidadesViewModel>> GetHabilidades(Expression<Func<Habilidade, bool>> criterio)
+        {
+            List<HabilidadesViewModel> lista = new List<HabilidadesViewModel>();
+
+            try
+            {
+                lista = await _contexto.Habilidades.Where(criterio).Select(h => new HabilidadesViewModel()
+                {
+                    HabilidadId = h.HabilidadId,
+                    Descripcion = h.Descripcion,
+
+                }).ToListAsync();
+                //lista = await _contexto.Habilidades.Where(criterio).ToListAsync();
+                //lista.Sort((x, y) => x.Descripcion.CompareTo(y.Descripcion));
             }
             catch (Exception)
             {

@@ -113,6 +113,7 @@
         {
             case "0": //Todo
                 NacionalidadesList = await nacionalidadesBLL.GetNacionalidades(c => true);
+                StateHasChanged();
                 break;
             case "1":
                 if (Criterio.Trim().Length > 0)
@@ -120,6 +121,7 @@
                     try
                     {
                         NacionalidadesList = await nacionalidadesBLL.GetNacionalidades(c => c.NacionalidadId == id);
+                        StateHasChanged();
                     }
                     catch (FormatException)
                     {
@@ -129,6 +131,7 @@
                 else
                 {
                     NacionalidadesList = await nacionalidadesBLL.GetNacionalidades(c => true);
+                    StateHasChanged();
                 }
                 break;
         }
@@ -139,6 +142,7 @@
                 break;
             case "1": //Fecha
                 NacionalidadesList = NacionalidadesList.Where(s => s.FechaCreacion >= Desde && s.FechaCreacion <= Hasta).ToList();
+                StateHasChanged();
                 break;
 
         }

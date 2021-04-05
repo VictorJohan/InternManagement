@@ -121,20 +121,15 @@ namespace InternManagement.BLL
             return ok;
         }
 
-        public async Task<List<HabilidadesViewModel>> GetHabilidades(Expression<Func<Habilidade, bool>> criterio)
+        public async Task<List<Habilidade>> GetHabilidades(Expression<Func<Habilidade, bool>> criterio)
         {
-            List<HabilidadesViewModel> lista = new List<HabilidadesViewModel>();
+            List<Habilidade> lista = new List<Habilidade>();
 
             try
             {
-                lista = await _contexto.Habilidades.Where(criterio).Select(h => new HabilidadesViewModel()
-                {
-                    HabilidadId = h.HabilidadId,
-                    Descripcion = h.Descripcion,
-                    
-                }).ToListAsync();
-                //lista = await _contexto.Habilidades.Where(criterio).ToListAsync();
-                //lista.Sort((x, y) => x.Descripcion.CompareTo(y.Descripcion));
+                
+                lista = await _contexto.Habilidades.Where(criterio).ToListAsync();
+                lista.Sort((x, y) => x.Descripcion.CompareTo(y.Descripcion));
             }
             catch (Exception)
             {

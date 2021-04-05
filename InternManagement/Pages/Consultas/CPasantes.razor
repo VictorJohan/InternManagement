@@ -125,6 +125,7 @@
         {
             case "0": //Todo
                 PasantesList = await pasantesBLL.GetPasantes(c => true);
+                StateHasChanged();
                 break;
             case "1":
                 if (Criterio.Trim().Length > 0)
@@ -132,6 +133,7 @@
                     try
                     {
                         PasantesList = await pasantesBLL.GetPasantes(c => c.PasanteId == id);
+                        StateHasChanged();
                     }
                     catch (FormatException)
                     {
@@ -141,6 +143,7 @@
                 else
                 {
                     PasantesList = await pasantesBLL.GetPasantes(c => true);
+                    StateHasChanged();
                 }
                 break;
         }
@@ -151,6 +154,7 @@
                 break;
             case "1": //Fecha
                 PasantesList = PasantesList.Where(s => s.FechaCreacion >= Desde && s.FechaCreacion <= Hasta).ToList();
+                StateHasChanged();
                 break;
 
         }

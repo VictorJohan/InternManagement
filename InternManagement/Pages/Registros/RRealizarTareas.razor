@@ -1,6 +1,8 @@
 ﻿@page "/RealizarTareas"
 @page "/RealizarTareas/{Id:int}"
 
+@using InternManagement.ViewModels
+
 <EditForm Model="RealizarTareas" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="card">
@@ -97,8 +99,8 @@
     private AsignarTareasBLL asignarTareasBLL { get; set; }
 
     List<Pasante> lista = new List<Pasante>();
-    List<Tarea> Tarealist = new List<Tarea>();
-    
+    List<TareasViewModels> Tarealist = new List<TareasViewModels>();
+
 
     [Parameter]
     public int Id { get; set; }
@@ -109,7 +111,7 @@
     {
         Nuevo();
         lista = await pasantesBLL.GetPasantes(p => true);
-        Tarealist = await tareasBLL.GetTareas(p => true);
+        Tarealist = await asignarTareasBLL.GetAsignarTareas(p => true);
 
         StateHasChanged();
     }
@@ -135,15 +137,12 @@
 
     }
 
-    private void Asignar(PasanteHabilidade pasanteHabilidades)
-    {
-
-    }
 
     private void PasanteChange()
     {
 
     }
+
 
     public void Limpiar()
     {
