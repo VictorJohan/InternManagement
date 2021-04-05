@@ -24,6 +24,7 @@ namespace InternManagement.Models
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string Nombres { get; set; }
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
     }
 }

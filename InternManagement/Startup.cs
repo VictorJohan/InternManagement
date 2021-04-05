@@ -66,6 +66,7 @@ namespace InternManagement
             services.AddTransient<PasantesBLL>();
             services.AddTransient<TareasBLL>();
             services.AddTransient<AsignarTareasBLL>();
+            
 
         }
 
