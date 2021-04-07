@@ -21,6 +21,7 @@ namespace InternManagement.Models
         public string Telefono { get; set; }
         [Required(ErrorMessage = "El Campo Email no puede estar vacio")]
         public string Email { get; set; }
+
         [Required(ErrorMessage = "El Campo Direccion no puede estar vacio")]
         public string Direccion { get; set; }
         [Required(ErrorMessage = "El Campo Fecha de creacion no puede estar vacio")]
