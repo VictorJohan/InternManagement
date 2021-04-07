@@ -22,7 +22,7 @@ namespace InternManagement.Data
         public virtual DbSet<AsignarTarea> AsignarTareas { get; set; }
         public virtual DbSet<RealizarTarea> RealizarTareas { get; set; }
         public virtual DbSet<Tarea> Tareas { get; set; }
-        public virtual DbSet<AspNetUser> Usuarios { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -16,7 +16,10 @@ namespace InternManagement.Models
         public int InstitucionId { get; set; }
         [Required(ErrorMessage ="El Campo Nombre no puede estar vacio")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El Campo Telefono no puede estar vacio")]
+        [RegularExpression(@"^[01]?[- .]?(\([2-9]\d{2}\)|[2-9]\d{2})[- .]?\d{3}[- .]?\d{4}$", ErrorMessage = "Teléfono no válido.")]
         public string Telefono { get; set; }
+        [Required(ErrorMessage = "El Campo Email no puede estar vacio")]
         public string Email { get; set; }
         [Required(ErrorMessage = "El Campo Direccion no puede estar vacio")]
         public string Direccion { get; set; }
