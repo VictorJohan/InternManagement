@@ -23,6 +23,7 @@ namespace InternManagement.Models
         public string Email { get; set; }
         [Required(ErrorMessage = "El Campo Direccion no puede estar vacio")]
         public string Direccion { get; set; }
+        [Required(ErrorMessage = "El Campo Fecha de creacion no puede estar vacio")]
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
         public virtual ICollection<Pasante> Pasantes { get; set; }
